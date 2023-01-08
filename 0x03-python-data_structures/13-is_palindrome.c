@@ -1,54 +1,72 @@
 #include "lists.h"
 
 /**
- * palindrome - utility for is_palindrome
- * @top: pointer to a pointer to a singly linked list
- * @next: pointer to a singly linked list
+ * reverse_listint - reverses a linked list
+ * @head: pointer to the first node in the list
  *
- * Return: integer, 1 if palindrome, else 0
+ * Return: pointer to the first node in the new list
  */
-int palindrome(listint_t **top, listint_t *next)
+void reverse_listint(listint_t **head)
 {
-	int result = 0;
+	listint_t *prev = NULL;
+	listint_t *current = *head;
+	listint_t *next = NULL;
 
-	if (next == NULL)
-		return (1);
+	while (current)
+	{
+		next = current->next;
+		current->next = prev;
+		prev = current;
+		current = next;
+	}
 
-	if (palindrome(top, next->next) && ((*top)->n == next->n))
-		result = 1;
-
-	*top = (*top)->next;
-
-	return (result);
+	*head = prev;
 }
 
 /**
- * is_palindrome - check if a singly linked list is a palindrome
- * @head: linked list double pointer
-@@ -8,26 +30,6 @@
+ * is_palindrome - checks if a linked list is a palindrome
+ * @head: double pointer to the linked list
+ *
+ * Return: 1 if it is, 0 if not
  */
 int is_palindrome(listint_t **head)
 {
-	listint_t *current = *head;
-	unsigned int i, l = 0;
-	int *p;
+	listint_t *slow = *head, *fast = *head, *temp = *head, *dup = NULL;
 
-	if (current == NULL)
+	if (*head == NULL || (*head)->next == NULL)
 		return (1);
-	while (current)
-		l++, current = current->next;
-	p = malloc(l * sizeof(*p));
-	current = *head, i = 0;
-	while (current)
-		p[i++] = current->n, current = current->next;
-	i = 0, l -= 1;
-	while (i <= l)
+
+	while (1)
 	{
-		if (p[i++] != p[l--])
+		fast = fast->next->next;
+		if (!fast)
+		{
+			dup = slow->next;
+			break;
+		}
+		if (!fast->next)
+		{
+			dup = slow->next->next;
+			break;
+		}
+		slow = slow->next;
+	}
+
+	reverse_listint(&dup);
+
+	while (dup && temp)
+	{
+		if (temp->n == dup->n)
+		{
+			dup = dup->next;
+			temp = temp->next;
+		}
+		else
 			return (0);
 	}
-	i = 0;
-	free(p);
-	return (1);
-	return (palindrome(head, *head));
+
+	if (!dup)
+		return (1);
+
+	return (0);
 }
