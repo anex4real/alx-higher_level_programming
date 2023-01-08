@@ -1,9 +1,14 @@
 #!/usr/bin/python3
 def max_integer(my_list=[]):
-    if not my_list:
-        return None
-    max_val = 0
-    for i in my_list:
-        if i > max_val:
-            max_val = i
-    return max_val  
+    length = len(my_list)
+
+    if length == 0:
+        return (None)
+
+    max_int = my_list[0]
+
+    for i in range(1, length):
+        if my_list[i] > max_int:
+            max_int = my_list[i]
+
+    return (max_int)  
