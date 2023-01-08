@@ -1,10 +1,24 @@
 #!/usr/bin/python3
+# -----------------------------------------------------------
+# Python program that:
+# demonstrates how to find the biggest integer of a list
+#
+# -----------------------------------------------------------
+
 
 def max_integer(my_list=[]):
-    maxi = None
-    if len(my_list) > 0:
-        maxi = my_list[0]
-        for item in my_list:
-            if item > maxi:
-                maxi = item
-    return 
+    """
+    Args:
+        my_list: a list
+    Returns:
+        the biggest integer in list or none if list is empty
+    """
+
+    if len(my_list) == 0:
+        return None
+    else:
+        biggest_int = my_list[0]
+        for index in range(len(my_list)):
+            if my_list[index] > biggest_int:
+                biggest_int = my_list[index]
+    return biggest_int 
